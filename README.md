@@ -8,6 +8,7 @@ Jenkins slave docker image with Python 2.7.12/pip, Python 3.5.2/pip3, Nodejs 6.9
 docker pull srvz/jenkins-slave
 
 docker run -d --name jenkins-slave \
+    -v {/your/path}:/var/jenkins_home \
     -v /var/run/docker.sock:/var/run/docker.sock \
     srvz/jenkins-slave -master http://192.168.111.111:8080 \
     -username name -password password \
