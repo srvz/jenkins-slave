@@ -1,6 +1,7 @@
 FROM ubuntu:16.04
 
 # https://github.com/carlossg/jenkins-swarm-slave-docker
+ARG MAVEN_VERSION=3.3.9
 
 USER root
 
@@ -25,7 +26,12 @@ RUN apt-get install -y --no-install-recommends apt-utils sudo \
 	python3 \
 	default-jdk
 
-RUN apt-get install -y --no-install-recommends --fix-missing maven
+RUN cd /tmp \
+	&& curl -v -O  http://www-us.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz \
+	&& tar -zxf apache-maven-$MAVEN_VERSION-bin.tar.gz \
+	&& mv apache-maven-$MAVEN_VERSION /usr/share/maven \
+	&& ln -s /usr/share/maven/bin/mvn /usr/bin/mvn \
+	&& ln -s /usr/share/maven/bin/mvnDebug /usr/bin/mvnDebug
 
 # Install and setup nodejs
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
